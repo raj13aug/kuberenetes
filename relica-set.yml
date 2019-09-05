@@ -1,19 +1,25 @@
-rds_old_count=$(aws rds describe-db-instances  --filters Name="db-instance-id",Values="${RDS_DEV_NAME}" | jq '.DBInstances | length'
- 
-if [ "$rds_old_delete_count" -gt "0" ] ; then
-        echo "destroy old rds database"
-        aws rds delete-db-instance --db-instance-identifier "${RDS_DEV_NAME}"-delete --skip-final-snapshot
-        echo "waiting for ${RDS_DEV_NAME}-delete to be deleted"
-        aws rds wait db-instance-deleted --db-instance-identifier "${RDS_DEV_NAME}"-delete
-    else
-        echo "no old delete-db found, continue..."
-		exit 1
-    fi
-
-aws rds describe-db-snapshots --db-snapshot-identifier rds:sonarqube-database-v00-2019-08-21-00-09 | jq length
-
-
-aws rds describe-db-snapshots --db-snapshot-identifier rds:sonarqube-database-v00-2019-08-21-00-09 | jq length
-
-
- aws ec2 describe-snapshots
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend
+  labels:
+    app: nginx
+    tier: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      tier: frontend
+    matchExpressions:
+      - {key: tier, operator: In, values: [frontend]}
+  template:
+    metadata:
+      labels:
+        app: nginx
+        tier: frontend
+    spec:
+      containers:
+      - name: nginx
+        image: darealmc/nginx-k8s:v1
+        ports:
+        - containerPort: 80
