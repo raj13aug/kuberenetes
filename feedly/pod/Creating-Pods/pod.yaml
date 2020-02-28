@@ -40,7 +40,7 @@ spec:
  protocol: TCP
  
 #################Scheduling Pod To Specific Nodes####################
-
+# scheduling a Pod onto a node whose labels match the nodeSelector labels specified by the user.
 
 apiVersion: v1
 kind: Pod
