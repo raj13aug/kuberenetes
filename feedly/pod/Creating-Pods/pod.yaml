@@ -1,0 +1,54 @@
+
+Example 1:
+
+##########create a yaml file for a pod###############################
+
+apiVersion: v1
+kind: Pod
+metadata:
+ name: mypod
+spec:
+ containers:
+ — image: newpod
+   name: firstpod
+ ports:
+ — containerPort: 8080
+   protocol: TCP
+   
+#############Creating PODs Using kubectl##########################
+
+kubectl create -f mypod.yaml
+
+
+Example 2:
+
+############Labels#############################
+
+apiVersion: v1
+kind: Pod
+metadata:
+ name: label-demo
+ labels:
+   type: demo
+   env: prod
+spec:
+ containers:
+ — image: new
+ name: label
+ ports:
+ — containerPort: 8080
+ protocol: TCP
+ 
+#################Scheduling Pod To Specific Nodes####################
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+ name: mypod
+spec:
+ nodeSelector:
+   gpu: “true”
+ containers:
+ — image: newpod
+   name: demo

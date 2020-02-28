@@ -1,0 +1,2 @@
+kubectl get po — show-labels       --> To know about the labels
+kubectl get po -l env=prod         -->  list out all the pods with env=prod 
